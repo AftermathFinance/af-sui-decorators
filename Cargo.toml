@@ -1,5 +1,6 @@
 [workspace]
 
 members = [
-    "af-read-api"
+    "af-read-api",
+    "af-transaction-api"
 ]

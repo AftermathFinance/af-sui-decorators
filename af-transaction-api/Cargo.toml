@@ -1,0 +1,16 @@
+[package]
+name = "af-transaction-api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+move-core-types = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.0", features = ["address32"] }
+shared-crypto = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.0" }
+sui = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.0" }
+sui-keys = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.0" }
+sui-types = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.0" }
+sui-sdk = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.0" }
+
+anyhow = "1.0"
+
+af-read-api = { path = "../af-read-api" }
