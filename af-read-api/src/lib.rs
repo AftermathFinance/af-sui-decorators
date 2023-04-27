@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use anyhow::Context;
 use jsonrpsee::core::async_trait;
 use serde::Deserialize;
@@ -37,7 +39,7 @@ impl ReadObject for ReadApi {
 }
 
 pub async fn print_all_coins(
-    client: &SuiClient,
+    client: &Arc<SuiClient>,
     sender: SuiAddress,
     coin_type: String,
 ) -> anyhow::Result<()> {
@@ -54,7 +56,7 @@ pub async fn print_all_coins(
 }
 
 pub async fn get_all_coins(
-    client: &SuiClient,
+    client: &Arc<SuiClient>,
     sender: SuiAddress,
     coin_type: String,
 ) -> Result<Page<Coin, ObjectID>, anyhow::Error> {
