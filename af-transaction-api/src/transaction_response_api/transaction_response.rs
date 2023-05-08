@@ -8,7 +8,6 @@ pub struct TransactionResponse {
     package_id: Option<ObjectID>,
     object_changes: Option<Vec<ObjectChange>>,
     execution_status: Option<SuiExecutionStatus>,
-    response: SuiTransactionBlockResponse,
 }
 
 impl TryFrom<SuiTransactionBlockResponse> for TransactionResponse {
@@ -36,7 +35,6 @@ impl TryFrom<SuiTransactionBlockResponse> for TransactionResponse {
             package_id: package.map(|x| x.into()),
             object_changes,
             execution_status: effects,
-            response: value,
         })
     }
 }
