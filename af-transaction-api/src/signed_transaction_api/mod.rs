@@ -1,12 +1,10 @@
 use std::{cmp::Ordering, sync::Arc};
 
 use shared_crypto::intent::Intent;
-use sui::client_commands::WalletContext;
 use sui_keys::keystore::{AccountKeystore, Keystore};
 use sui_sdk::{
-    rpc_types::{
-        SuiTransactionBlockResponse, SuiTransactionBlockResponseOptions,
-    },
+    rpc_types::{SuiTransactionBlockResponse, SuiTransactionBlockResponseOptions},
+    wallet_context::WalletContext,
     SuiClient,
 };
 use sui_types::{
@@ -25,14 +23,21 @@ pub struct SignedTransactionApi {
 
 impl SignedTransactionApi {
     pub async fn from_context(mut context: WalletContext) -> anyhow::Result<Self> {
+        let client = context.get_client().await?;
+        let sender = context.active_address()?;
+        let keystore = context.config.into_inner().keystore;
         Ok(Self {
-            client: Arc::new(context.get_client().await?),
-            sender: context.active_address()?,
-            keystore: Arc::new(context.config.into_inner().keystore),
+            client: Arc::new(client),
+            sender,
+            keystore: Arc::new(keystore),
         })
     }
 
-    pub fn new(client: Arc<SuiClient>, sender: SuiAddress, keystore: Arc<Keystore>) -> anyhow::Result<Self> {
+    pub fn new(
+        client: Arc<SuiClient>,
+        sender: SuiAddress,
+        keystore: Arc<Keystore>,
+    ) -> anyhow::Result<Self> {
         Ok(Self {
             client: client.clone(),
             sender,
@@ -58,12 +63,16 @@ impl SignedTransactionApi {
         tx_data: TransactionData,
         options: SuiTransactionBlockResponseOptions,
     ) -> anyhow::Result<SuiTransactionBlockResponse> {
-        let signature = self.keystore.sign_secure(&self.sender, &tx_data, Intent::sui_transaction())?;
+        let signature =
+            self.keystore
+                .sign_secure(&self.sender, &tx_data, Intent::sui_transaction())?;
+
         let transaction =
             Transaction::from_data(tx_data, Intent::sui_transaction(), vec![signature]).verify()?;
         let request_type = Some(ExecuteTransactionRequestType::WaitForLocalExecution);
-        Ok(self.client
-            .quorum_driver()
+        Ok(self
+            .client
+            .quorum_driver_api()
             .execute_transaction_block(transaction, options, request_type)
             .await?)
     }
@@ -102,7 +111,8 @@ impl SignedTransactionApi {
             coins.data[i].coin_object_id
         } else if let Some(i) = greater {
             let primary = &coins.data[i];
-            let tx_data = self.client
+            let tx_data = self
+                .client
                 .transaction_builder()
                 .split_coin(
                     self.sender,
@@ -114,7 +124,8 @@ impl SignedTransactionApi {
                 .await?;
             let response = self.sign_and_execute_with_effects(tx_data).await?;
             assert!(
-                response.confirmed_local_execution.is_some() && response.confirmed_local_execution.unwrap()
+                response.confirmed_local_execution.is_some()
+                    && response.confirmed_local_execution.unwrap()
             );
             primary.coin_object_id
         } else {

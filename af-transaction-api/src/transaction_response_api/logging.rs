@@ -1,9 +1,7 @@
 use anyhow::bail;
 use sui_sdk::rpc_types::{
-        SuiExecutionStatus,
-        SuiTransactionBlockEffects,
-        SuiTransactionBlockResponse,
-        SuiTransactionBlockEffectsV1,
+    SuiExecutionStatus, SuiTransactionBlockEffects, SuiTransactionBlockEffectsV1,
+    SuiTransactionBlockResponse,
 };
 
 fn get_transaction_effects_v1(

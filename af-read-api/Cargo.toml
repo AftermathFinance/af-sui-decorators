@@ -4,8 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-sui-types = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.1" }
-sui-sdk = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.1" }
+sui-types = { git = "https://github.com/MystenLabs/sui", tag = "testnet-1.0.0" }
+sui-sdk = { git = "https://github.com/MystenLabs/sui", tag = "testnet-1.0.0" }
 
 anyhow = "1.0"
 jsonrpsee = { version = "0.16.2", features = ["http-client"] }
