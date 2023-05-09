@@ -1,0 +1,10 @@
+[package]
+name = "af-types"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+sui-types = { git = "https://github.com/MystenLabs/sui", tag = "testnet-1.0.0" }
+sui-sdk = { git = "https://github.com/MystenLabs/sui", tag = "testnet-1.0.0" }
+clap = { version = "^4.1.4", features = ["derive"] }
+anyhow = "1.0"

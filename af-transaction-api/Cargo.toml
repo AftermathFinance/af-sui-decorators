@@ -10,7 +10,9 @@ sui = { git = "https://github.com/MystenLabs/sui", tag = "testnet-1.0.0" }
 sui-keys = { git = "https://github.com/MystenLabs/sui", tag = "testnet-1.0.0" }
 sui-types = { git = "https://github.com/MystenLabs/sui", tag = "testnet-1.0.0" }
 sui-sdk = { git = "https://github.com/MystenLabs/sui", tag = "testnet-1.0.0" }
+sui-transaction-builder = { git = "https://github.com/MystenLabs/sui", tag = "testnet-1.0.0" }
 
 anyhow = "1.0"
 
 af-read-api = { path = "../af-read-api" }
+af-types = { path = "../af-types" }

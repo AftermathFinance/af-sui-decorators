@@ -2,5 +2,6 @@
 
 members = [
     "af-read-api",
-    "af-transaction-api"
+    "af-transaction-api",
+    "af-types"
 ]

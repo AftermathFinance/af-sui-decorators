@@ -41,14 +41,3 @@ impl TryFrom<TransactionResponse> for PackageObjects {
         })
     }
 }
-
-//impl RemoveWithErrorMsg<String, Vec<CreatedObject>> for CreatedObjectsByModule {
-//    fn try_remove<Q>(&mut self, key: &Q) -> anyhow::Result<Vec<CreatedObject>>
-//    where
-//        Q: ?Sized,
-//        String: std::borrow::Borrow<Q>,
-//        Q: std::fmt::Debug + std::hash::Hash + Eq,
-//    {
-//        self.0.try_remove(key)
-//    }
-//}
