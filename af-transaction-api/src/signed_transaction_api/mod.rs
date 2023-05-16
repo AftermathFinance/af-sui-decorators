@@ -37,9 +37,9 @@ impl SignedTransactionApi {
         keystore: Arc<Keystore>,
     ) -> anyhow::Result<Self> {
         Ok(Self {
-            client: client.clone(),
+            client,
             sender,
-            keystore: keystore.clone(),
+            keystore,
         })
     }
 
