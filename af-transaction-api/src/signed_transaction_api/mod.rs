@@ -10,7 +10,8 @@ use sui_sdk::{
 use sui_transaction_builder::TransactionBuilder;
 use sui_types::{
     base_types::{ObjectID, SuiAddress},
-    messages::{ExecuteTransactionRequestType, Transaction, TransactionData},
+    messages::{Transaction, TransactionData},
+    quorum_driver_types::ExecuteTransactionRequestType,
 };
 
 use af_read_api::get_all_coins;
@@ -123,9 +124,9 @@ impl SignedTransactionApi {
         keystore: Arc<Keystore>,
     ) -> anyhow::Result<Self> {
         Ok(Self {
-            client: client.clone(),
+            client,
             sender,
-            keystore: keystore.clone(),
+            keystore,
         })
     }
 

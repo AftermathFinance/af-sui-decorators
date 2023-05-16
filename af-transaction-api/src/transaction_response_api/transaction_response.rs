@@ -32,7 +32,7 @@ impl TryFrom<SuiTransactionBlockResponse> for TransactionResponse {
         };
 
         Ok(Self {
-            package_id: package.map(|x| x.into()),
+            package_id: package,
             object_changes,
             execution_status: effects,
         })

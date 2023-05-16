@@ -28,7 +28,7 @@ impl TryFrom<TransactionResponse> for PackageObjects {
             {
                 let key = object_type.module.to_string() + "::" + object_type.name.as_str();
                 let created = CreatedObject {
-                    object_id: object_id.clone(),
+                    object_id: *object_id,
                     object_type: object_type.clone(),
                 };
                 objects.entry(key).or_default().push(created);
@@ -36,7 +36,7 @@ impl TryFrom<TransactionResponse> for PackageObjects {
         }
 
         Ok(Self {
-            package_id: value.package_id()?.clone(),
+            package_id: *value.package_id()?,
             objects,
         })
     }
