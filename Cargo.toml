@@ -2,7 +2,8 @@
 
 members = [
     "af-read-api",
-    "af-transaction-api"
+    "af-transaction-api",
+    "af-types"
 ]
 
 # Dependencies that should be kept in sync through the whole workspace
@@ -13,5 +14,6 @@ sui = { git = "https://github.com/MystenLabs/sui", tag = "testnet-v1.1.0" }
 sui-keys = { git = "https://github.com/MystenLabs/sui", tag = "testnet-v1.1.0" }
 sui-types = { git = "https://github.com/MystenLabs/sui", tag = "testnet-v1.1.0" }
 sui-sdk = { git = "https://github.com/MystenLabs/sui", tag = "testnet-v1.1.0" }
+sui-transaction-builder = { git = "https://github.com/MystenLabs/sui", tag = "testnet-v1.1.0" }
 
 anyhow = "^1.0"
