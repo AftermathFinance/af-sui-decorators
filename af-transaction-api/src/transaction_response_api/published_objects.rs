@@ -1,8 +1,8 @@
-use std::collections::HashMap;
+use anyhow::anyhow;
 use move_core_types::language_storage::StructTag;
+use std::collections::HashMap;
 use sui_sdk::rpc_types::{ObjectChange, SuiTransactionBlockResponse};
 use sui_types::base_types::ObjectID;
-use anyhow::anyhow;
 
 pub struct CreatedObject {
     pub object_id: ObjectID,
@@ -20,7 +20,10 @@ impl TryFrom<SuiTransactionBlockResponse> for PublishedObjects {
     fn try_from(value: SuiTransactionBlockResponse) -> Result<Self, Self::Error> {
         let mut package = None;
         let mut objects = HashMap::<String, Vec<CreatedObject>>::new();
-        for change in value.object_changes.ok_or_else(|| anyhow!("No object changes in transaction"))? {
+        for change in value
+            .object_changes
+            .ok_or_else(|| anyhow!("No object changes in transaction"))?
+        {
             match change {
                 ObjectChange::Created {
                     object_type,

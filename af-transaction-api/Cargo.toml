@@ -4,13 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-move-core-types = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.1", features = ["address32"] }
-shared-crypto = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.1" }
-sui = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.1" }
-sui-keys = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.1" }
-sui-types = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.1" }
-sui-sdk = { git = "https://github.com/MystenLabs/sui", tag = "testnet-0.32.1" }
-
-anyhow = "1.0"
+anyhow.workspace = true
+move-core-types.workspace = true
+shared-crypto.workspace = true
+sui.workspace = true
+sui-keys.workspace = true
+sui-types.workspace = true
+sui-sdk.workspace = true
 
 af-read-api = { path = "../af-read-api" }
