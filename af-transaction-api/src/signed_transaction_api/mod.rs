@@ -10,8 +10,8 @@ use sui_sdk::{
 use sui_transaction_builder::TransactionBuilder;
 use sui_types::{
     base_types::{ObjectID, SuiAddress},
-    messages::{Transaction, TransactionData},
     quorum_driver_types::ExecuteTransactionRequestType,
+    transaction::{Transaction, TransactionData},
 };
 
 use af_read_api::get_all_coins;
