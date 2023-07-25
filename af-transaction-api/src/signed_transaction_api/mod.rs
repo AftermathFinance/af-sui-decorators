@@ -153,12 +153,13 @@ impl SignedTransactionApi {
                 .sign_secure(&self.sender, &tx_data, Intent::sui_transaction())?;
 
         let transaction =
-            Transaction::from_data(tx_data, Intent::sui_transaction(), vec![signature]).verify()?;
+            Transaction::from_data(tx_data, Intent::sui_transaction(), vec![signature])
+                .verify(&Default::default())?;
         let request_type = Some(ExecuteTransactionRequestType::WaitForLocalExecution);
         Ok(self
             .client
             .quorum_driver_api()
-            .execute_transaction_block(transaction, options, request_type)
+            .execute_transaction_block(transaction.into(), options, request_type)
             .await?)
     }
 
