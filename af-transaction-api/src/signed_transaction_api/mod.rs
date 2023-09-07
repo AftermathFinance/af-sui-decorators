@@ -12,10 +12,10 @@ use sui_transaction_builder::TransactionBuilder;
 use sui_types::{
     base_types::{ObjectID, SuiAddress},
     quorum_driver_types::ExecuteTransactionRequestType,
-    transaction::{Transaction, TransactionData},
+    transaction::{Transaction, TransactionData}, coin::Coin,
 };
 
-use af_read_api::get_all_coins;
+use af_read_api::{get_all_coins, ReadObject};
 use af_types::{
     gas_info::GasInfo,
     move_call_args::{MoveCallArgs, TryIntoMoveCallArgs},
@@ -195,9 +195,11 @@ impl SignedTransactionApi {
             }
         }
 
-        let coin = if let Some(i) = equal {
-            coins.data[i].coin_object_id
-        } else if let Some(i) = greater {
+        if let Some(i) = equal {
+            return Ok(coins.data[i].coin_object_id);
+        }
+
+        if let Some(i) = greater {
             let primary = &coins.data[i];
             let GasInfo { object: gas_obj, budget } = gas;
             let tx_data = self
@@ -211,16 +213,27 @@ impl SignedTransactionApi {
                     budget,
                 )
                 .await?;
-            let response = self.sign_and_execute_with_effects(tx_data).await?;
+            let options = SuiTransactionBlockResponseOptions::new().with_effects().with_object_changes();
+            let response = self.sign_and_execute(tx_data, options).await?;
             assert!(
                 response.confirmed_local_execution.is_some()
                     && response.confirmed_local_execution.unwrap()
             );
-            primary.coin_object_id
-        } else {
-            bail!("No Coin<{coin_type}> with balance >= {amount} found for address {}", self.sender);
+
+            for change in response.object_changes.unwrap() {
+                if let sui_sdk::rpc_types::ObjectChange::Created { object_type, object_id, .. } = change {
+                    if Coin::is_coin(&object_type) && object_type.type_params[0].to_string() == coin_type {
+                        let coin: Coin = self.client.read_api().read_object(object_id).await?;
+                        if coin.value() == amount {
+                            return Ok(object_id)
+                        }
+                    }
+                }
+            }
+
+            bail!("Failed to find coin from split result");
         };
 
-        Ok(coin)
+        bail!("No Coin<{coin_type}> with balance >= {amount} found for address {}", self.sender)
     }
 }
