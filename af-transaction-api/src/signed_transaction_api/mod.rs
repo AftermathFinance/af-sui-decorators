@@ -1,5 +1,6 @@
 use std::{cmp::Ordering, sync::Arc};
 
+use anyhow::bail;
 use shared_crypto::intent::Intent;
 use sui_keys::keystore::{AccountKeystore, Keystore};
 use sui_sdk::{
@@ -175,8 +176,9 @@ impl SignedTransactionApi {
         &self,
         amount: u64,
         coin_type: String,
+        gas: GasInfo,
     ) -> anyhow::Result<ObjectID> {
-        let coins = get_all_coins(&self.client, self.sender, coin_type).await?;
+        let coins = get_all_coins(&self.client, self.sender, coin_type.clone()).await?;
 
         let mut equal = None;
         let mut greater = None;
@@ -197,6 +199,7 @@ impl SignedTransactionApi {
             coins.data[i].coin_object_id
         } else if let Some(i) = greater {
             let primary = &coins.data[i];
+            let GasInfo { object: gas_obj, budget } = gas;
             let tx_data = self
                 .client
                 .transaction_builder()
@@ -204,8 +207,8 @@ impl SignedTransactionApi {
                     self.sender,
                     primary.coin_object_id,
                     vec![amount, primary.balance - amount],
-                    None,
-                    1000,
+                    gas_obj,
+                    budget,
                 )
                 .await?;
             let response = self.sign_and_execute_with_effects(tx_data).await?;
@@ -215,7 +218,7 @@ impl SignedTransactionApi {
             );
             primary.coin_object_id
         } else {
-            ObjectID::ZERO
+            bail!("No Coin<{coin_type}> with balance >= {amount} found for address {}", self.sender);
         };
 
         Ok(coin)

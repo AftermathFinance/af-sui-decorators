@@ -16,3 +16,9 @@ pub struct GasInfo {
     #[arg(name = "gas-budget", long, default_value_t = 1000000000)]
     pub budget: u64,
 }
+
+impl Default for GasInfo {
+    fn default() -> Self {
+        Self { object: None, budget: 1000000000 }
+    }
+}
