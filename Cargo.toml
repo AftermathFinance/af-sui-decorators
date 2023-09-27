@@ -8,12 +8,12 @@ members = [
 
 # Dependencies that should be kept in sync through the whole workspace
 [workspace.dependencies]
-move-core-types = { git = "https://github.com/MystenLabs/sui", tag = "devnet-v1.9.1", features = ["address32"] }
-shared-crypto = { git = "https://github.com/MystenLabs/sui", tag = "devnet-v1.9.1" }
-sui = { git = "https://github.com/MystenLabs/sui", tag = "devnet-v1.9.1" }
-sui-keys = { git = "https://github.com/MystenLabs/sui", tag = "devnet-v1.9.1" }
-sui-types = { git = "https://github.com/MystenLabs/sui", tag = "devnet-v1.9.1" }
-sui-sdk = { git = "https://github.com/MystenLabs/sui", tag = "devnet-v1.9.1" }
-sui-transaction-builder = { git = "https://github.com/MystenLabs/sui", tag = "devnet-v1.9.1" }
+move-core-types = { git = "https://github.com/MystenLabs/sui", rev = "979f55b0678b7ea612802496e83cebe2ffe73c25", features = ["address32"] }
+shared-crypto = { git = "https://github.com/MystenLabs/sui", rev = "979f55b0678b7ea612802496e83cebe2ffe73c25" }
+sui = { git = "https://github.com/MystenLabs/sui", rev = "979f55b0678b7ea612802496e83cebe2ffe73c25" }
+sui-keys = { git = "https://github.com/MystenLabs/sui", rev = "979f55b0678b7ea612802496e83cebe2ffe73c25" }
+sui-types = { git = "https://github.com/MystenLabs/sui", rev = "979f55b0678b7ea612802496e83cebe2ffe73c25" }
+sui-sdk = { git = "https://github.com/MystenLabs/sui", rev = "979f55b0678b7ea612802496e83cebe2ffe73c25" }
+sui-transaction-builder = { git = "https://github.com/MystenLabs/sui", rev = "979f55b0678b7ea612802496e83cebe2ffe73c25" }
 
 anyhow = "^1.0"
